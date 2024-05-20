@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS users (
+    id VARCHAR(255) PRIMARY KEY NOT NULL,
+    nip VARCHAR(15) NOT NULL UNIQUE,
+    name VARCHAR(50) NOT NULL,
+    password VARCHAR(255) NULL DEFAULT NULL,
+    role VARCHAR(5) NOT NULL CHECK(role IN('it', 'nurse')),
+    identity_card_scan_image VARCHAR(255) NULL DEFAULT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL
+)
