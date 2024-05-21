@@ -30,7 +30,7 @@ func (controller *PatientController) Create(c *fiber.Ctx) error {
 	patientResponse := controller.patientService.Create(context.Background(), patientRequest)
 
 	c.Set("X-Author", "Kolaboradev")
-	return c.Status(200).JSON(response.Web{
+	return c.Status(201).JSON(response.Web{
 		Message: "Successfully create patient",
 		Data:    patientResponse,
 	})

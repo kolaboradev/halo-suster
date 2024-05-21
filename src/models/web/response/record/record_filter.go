@@ -9,7 +9,7 @@ type (
 		Name                string `json:"name"`
 		BirthDate           string `json:"birthDate"`
 		Gender              string `json:"gender"`
-		IdentityCardScanImg string `json:"identityCardImg"`
+		IdentityCardScanImg string `json:"identityCardScanImg"`
 	}
 	User struct {
 		Nip    int    `json:"nip"`

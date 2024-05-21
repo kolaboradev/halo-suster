@@ -195,7 +195,7 @@ func (service *UserService) GetAllUsers(ctx context.Context, filters userRequest
 
 func (service *UserService) EditNurseById(ctx context.Context, request userRequest.UserNurseEdit) {
 	if !helper.IsNurseNiP(request.Nip) {
-		panic(exceptions.NewNotFoundError("nip not starts with 303"))
+		panic(exceptions.NewBadRequestError("nip not starts with 303"))
 	}
 	err := service.validator.Struct(request)
 	helper.ErrorIfPanic(err)
@@ -204,11 +204,19 @@ func (service *UserService) EditNurseById(ctx context.Context, request userReque
 	helper.ErrorIfPanic(err)
 	defer helper.RollbackOrCommit(tx)
 
-	nurseMustExist := service.userRepository.GetNurseByIdBool(ctx, tx, request.UserId)
-
-	if !nurseMustExist {
+	nurseMustExist, err := service.userRepository.GetUserById(ctx, tx, request.UserId)
+	if err != nil {
 		panic(exceptions.NewNotFoundError("nurse not found"))
 	}
+	if err == nil {
+		if !helper.IsNurseNiP(nurseMustExist.Nip) {
+			panic(exceptions.NewNotFoundError("nurse not found"))
+		}
+	}
+
+	// if !nurseMustExist {
+	// 	panic(exceptions.NewNotFoundError("nurse not found"))
+	// }
 
 	nurse, err := service.userRepository.GetUserItByNip(ctx, tx, request.Nip)
 	if err == nil {

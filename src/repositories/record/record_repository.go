@@ -60,12 +60,6 @@ func (repository *RecordRepository) GetAll(ctx context.Context, tx *sql.Tx, filt
 		}
 	}
 
-	if filters.Offset >= 0 {
-		query += fmt.Sprintf(" OFFSET $%d", argIndex)
-		args = append(args, filters.Offset)
-		argIndex++
-	}
-
 	if filters.Limit >= 0 {
 		if filters.Limit == 0 {
 			filters.Limit = 5
@@ -75,7 +69,14 @@ func (repository *RecordRepository) GetAll(ctx context.Context, tx *sql.Tx, filt
 		argIndex++
 	}
 
+	if filters.Offset >= 0 {
+		query += fmt.Sprintf(" OFFSET $%d", argIndex)
+		args = append(args, filters.Offset)
+		argIndex++
+	}
+
 	fmt.Println(query)
+	fmt.Println(filters.Offset)
 	rows, err := tx.QueryContext(ctx, query, args...)
 	helper.ErrorIfPanic(err)
 	defer rows.Close()

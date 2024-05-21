@@ -11,6 +11,7 @@ import (
 	"github.com/kolaboradev/halo-suster/src/helper"
 	userRequest "github.com/kolaboradev/halo-suster/src/models/web/request/user"
 	"github.com/kolaboradev/halo-suster/src/models/web/response"
+	userResponse "github.com/kolaboradev/halo-suster/src/models/web/response/user"
 	userService "github.com/kolaboradev/halo-suster/src/services/user"
 )
 
@@ -219,9 +220,13 @@ func (controller *UserController) PostImage(c *fiber.Ctx) error {
 		panic(exceptions.NewBadRequestError("file min 10KB"))
 	}
 
+	image := userResponse.Image{
+		ImageUrl: fmt.Sprintf("https://www.google.com" + file.Filename),
+	}
+
 	c.Set("X-Author", "Kolaboradev")
 	return c.Status(200).JSON(response.Web{
 		Message: "File uploaded sucessfully",
-		Data:    "Ok",
+		Data:    image,
 	})
 }

@@ -37,6 +37,7 @@ func (server *HttpServer) Listen() {
 	validator.RegisterValidation("url_image", helper.IsValidUrl)
 	validator.RegisterValidation("identity_number", helper.IdentityNumber)
 	validator.RegisterValidation("gender", helper.IsGender)
+	validator.RegisterValidation("iso8601", helper.IsISO8601)
 
 	app := fiber.New(fiber.Config{
 		ServerHeader: "Kolaboradev",
@@ -59,6 +60,7 @@ func (server *HttpServer) Listen() {
 	v1 := v1Routes.SetRoutesV1(app)
 	userV1Routes.SetRoutesUsers(v1, userController)
 	medicalV1Routes.SetRoutesMedicals(v1, patientController, recordController)
+	app.Use(middlewares.NotFoundHandler)
 
 	app.Listen(":8080")
 }

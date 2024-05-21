@@ -67,6 +67,15 @@ func IdentityNumber(field validator.FieldLevel) bool {
 	return false
 
 }
+func IsISO8601(field validator.FieldLevel) bool {
+	value, ok := field.Field().Interface().(string)
+	if ok {
+		var urlRegex = regexp.MustCompile(`^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$`)
+		return urlRegex.MatchString(value)
+	}
+	return false
+
+}
 
 func CustomMessageValidation(valErr validator.FieldError) string {
 	switch valErr.ActualTag() {

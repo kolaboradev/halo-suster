@@ -3,10 +3,10 @@ package patientResponse
 import "time"
 
 type PatientFilter struct {
-	IdentityNumber int64
-	PhoneNumber    string
-	Name           string
-	BirthDate      string
-	Gender         string
-	CreatedAt      time.Time
+	IdentityNumber int64     `json:"identityNumber"`
+	PhoneNumber    string    `json:"phoneNumber"`
+	Name           string    `json:"name"`
+	BirthDate      string    `json:"birthDate"`
+	Gender         string    `json:"gender"`
+	CreatedAt      time.Time `json:"createdAt"`
 }

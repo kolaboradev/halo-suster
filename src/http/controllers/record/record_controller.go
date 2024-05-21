@@ -38,7 +38,7 @@ func (controller *RecordController) Create(c *fiber.Ctx) error {
 	controller.recordService.Create(context.Background(), recordRequest)
 
 	c.Set("X-Author", "Kolaboradev")
-	return c.Status(200).JSON(response.Web{
+	return c.Status(201).JSON(response.Web{
 		Message: "record created successfully",
 		Data:    "OK",
 	})
